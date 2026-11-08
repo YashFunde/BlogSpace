@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Dashboard Navbar -->
+    <header>
+        <nav class="navbar">
+            <h2 class="logo">BlogSpace</h2>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="create-blog.html" class="btn">+ Create Blog</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Dashboard Content -->
+    <main class="dashboard">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>My Dashboard</h1>
+                <p>Welcome back! Manage your blog posts here.</p>
+            </div>
+            <a href="create-blog.html" class="hero-btn">+ Create New Blog</a>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats-container">
+
+            <div class="stat-card">
+                <h3>Total Blogs</h3>
+                <h2>12</h2>
+                <p>Published posts</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Views</h3>
+                <h2>2,450</h2>
+                <p>Across all blogs</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Drafts</h3>
+                <h2>03</h2>
+                <p>Unpublished posts</p>
+            </div>
+
+        </div>
+
+        <!-- Blog Management -->
+        <section class="manage-blogs">
+            <h2>My Blog Posts</h2>
+            <p class="section-description">Manage your published articles.</p>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Blog Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Views</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Getting Started with HTML</td>
+                            <td>Technology</td>
+                            <td><span class="status published">Published</span></td>
+                            <td>450</td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>Learning JavaScript</td>
+                            <td>Programming</td>
+                            <td><span class="status published">Published</span></td>
+                            <td>320</td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+
+                        <tr>
+                            <td>My First Web Project</td>
+                            <td>Development</td>
+                            <td><span class="status draft">Draft</span></td>
+                            <td>0</td>
+                            <td><a href="#">Edit</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 BlogSpace. All Rights Reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
