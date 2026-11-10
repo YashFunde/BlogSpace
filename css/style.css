@@ -718,3 +718,43 @@ td a {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ===== Navbar Navigation Styling ===== */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a:not(.btn) {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.nav-links a:not(.btn):hover {
+    background-color: #f0efff;
+    color: #4f46e5;
+    transform: translateY(-2px);
+}
+
+/* Get Started / Button Styling */
+.nav-links a.btn {
+    transition: all 0.25s ease;
+}
+
+.nav-links a.btn:hover {
+    background-color: #3730a3;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(79, 70, 229, 0.2);
+}
+

@@ -1,29 +1,44 @@
 # BlogSpace – Full Stack Blog Application
 
-A responsive full-stack Blog Application developed as part of my **Full Stack Web Development Virtual Internship at Codomax Digital Solutions**.
+A responsive full-stack blog application developed as part of my **Full Stack Web Development Virtual Internship at Codomax Digital Solutions**.
 
-BlogSpace allows users to register, log in, create blog posts, manage their own blogs and explore posts published by the community.
+BlogSpace allows users to register, log in, create and manage their own blog posts, and explore content published by the community.
 
 ## Features
 
+## Screenshots
+
+### Homepage
+![BlogSpace Homepage](assets/images/homepage.png)
+
+### Login Page
+![Login Page](assets/images/login.png)
+
+### Dashboard
+![User Dashboard](assets/images/dashboard.png)
+
+### Blog Details
+![Blog Details](assets/images/blog-details.png)
+
 ### Frontend
-- Responsive homepage
+- Responsive homepage and navigation
 - User registration and login
-- Dynamic homepage blog display
-- User dashboard
-- Create new blog posts
-- Edit and delete blog posts
+- Dynamic blog display
+- User dashboard and profile
+- Create, edit, and delete blog posts
+- Search blogs by title and content
+- Filter blogs by category
 - User-specific blog management
-- JWT-based login session handling
 - Protected dashboard and create-blog pages
+- Profile statistics
 
 ### Backend
-- RESTful API development using Express.js
-- User registration and login APIs
+- RESTful APIs using Express.js
+- JWT-based authentication
 - Password hashing using bcryptjs
-- JWT authentication
 - Authentication middleware
 - Blog CRUD operations
+- MongoDB Atlas integration
 - User-specific blog retrieval
 - Environment variable configuration
 
@@ -36,6 +51,8 @@ BlogSpace allows users to register, log in, create blog posts, manage their own 
 | JavaScript | Frontend functionality |
 | Node.js | Backend runtime |
 | Express.js | Backend framework |
+| MongoDB Atlas | Cloud database |
+| Mongoose | Database modeling |
 | bcryptjs | Password hashing |
 | JSON Web Token | Authentication |
 | dotenv | Environment variables |
@@ -52,6 +69,7 @@ BlogSpace/
 ├── register.html
 ├── dashboard.html
 ├── create-blog.html
+├── blog-details.html
 │
 ├── css/
 │   └── style.css
@@ -61,20 +79,21 @@ BlogSpace/
 │   └── script.js
 │
 ├── backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── models/
+│   │   ├── User.js
+│   │   └── Blog.js
 │   ├── controllers/
 │   │   ├── authController.js
 │   │   └── blogController.js
-│   │
 │   ├── routes/
 │   │   ├── authRoutes.js
 │   │   └── blogRoutes.js
-│   │
 │   ├── middleware/
 │   │   └── authMiddleware.js
-│   │
 │   ├── server.js
 │   ├── package.json
-│   ├── package-lock.json
 │   └── .gitignore
 │
 └── README.md
@@ -90,11 +109,9 @@ git clone https://github.com/YashFunde/BlogSpace.git
 
 ### 2. Open the project
 
-Open the project folder in VS Code.
+Open the cloned project folder in VS Code.
 
 ### 3. Install backend dependencies
-
-Open the terminal and navigate to the backend folder:
 
 ```bash
 cd backend
@@ -106,10 +123,12 @@ npm install
 Create a `.env` file inside the backend folder:
 
 ```env
-JWT_SECRET=your_own_secret_key
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secure_secret_key
 ```
 
-Use your own secure secret value. Do not upload the `.env` file to GitHub.
+Replace the placeholder values with your own credentials. Never upload your `.env` file to GitHub.
 
 ### 5. Start the backend server
 
@@ -117,13 +136,19 @@ Use your own secure secret value. Do not upload the `.env` file to GitHub.
 npm run dev
 ```
 
-The backend server will run at:
+The backend will run at:
 
 `http://localhost:5000`
 
 ### 6. Run the frontend
 
 Install the Live Server extension in VS Code and open `index.html` using Live Server.
+
+Make sure `js/config.js` points to your backend API:
+
+```javascript
+const API_URL = "http://localhost:5000/api";
+```
 
 ## API Endpoints
 
@@ -133,13 +158,14 @@ Install the Live Server extension in VS Code and open `index.html` using Live Se
 |---|---|---|
 | POST | `/api/auth/register` | Register a new user |
 | POST | `/api/auth/login` | Login user |
+| GET | `/api/auth/profile` | Get logged-in user's profile |
 
 ### Blog APIs
 
 | Method | Endpoint | Description | Authentication |
 |---|---|---|---|
 | GET | `/api/blogs` | Get all blogs | No |
-| GET | `/api/blogs/my-blogs` | Get logged-in user's blogs | Yes |
+| GET | `/api/blogs/my-blogs` | Get user's blogs | Yes |
 | POST | `/api/blogs` | Create a blog | Yes |
 | PUT | `/api/blogs/:id` | Update a blog | Yes |
 | DELETE | `/api/blogs/:id` | Delete a blog | Yes |
@@ -148,87 +174,51 @@ Protected endpoints require a JWT Bearer token in the Authorization header.
 
 ## Module 03 – MongoDB Integration
 
-### Features Added
 - Integrated MongoDB Atlas using Mongoose.
-- Created User and Blog models with schema validation.
-- Stored user registration details securely using bcrypt password hashing.
-- Implemented JWT-based authentication.
+- Created User and Blog models.
+- Stored user passwords securely using bcrypt hashing.
 - Connected blog CRUD operations with MongoDB.
 - Added blog image URL support.
 - Displayed blog posts with author information.
-- Added dashboard welcome message with the logged-in user's name.
-- Implemented edit and delete functionality for blog posts.
-- Verified data persistence using MongoDB Atlas.
-
-### Database
-- MongoDB Atlas
-- Mongoose
-
-### Backend
-- Node.js
-- Express.js
-- JWT
-- bcryptjs
-
-
+- Implemented data persistence.
 
 ## Module 04 – CRUD Operations and Blog Filtering
 
-### Features Implemented
-- Create new blog posts.
-- Read and display all published blogs.
+- Create, read, update, and delete blog posts.
 - View individual blog details.
-- Update existing blog posts.
-- Delete blog posts.
-- Search blogs by title.
-- Search blogs by content.
+- Search blogs by title and content.
 - Filter blogs by category.
 - Combine search and category filtering.
-- Display a message when no matching blogs are found.
+- Display messages when no matching blogs are found.
 
-### Technologies Used
-- HTML
-- CSS
-- JavaScript
-- Node.js
-- Express.js
-- MongoDB Atlas
-
-
-## Module 05: Authentication & Dashboard
-
-### Features Implemented
+## Module 05 – Authentication and Dashboard
 
 - Secure user authentication using JWT.
 - Password hashing using bcrypt.
 - Protected routes for authenticated users.
 - User-specific blog management.
-- User profile section displaying name, email, and account creation date.
+- User profile displaying name, email, and account creation date.
 - Profile statistics:
   - Total Blogs
   - Categories Used
   - Latest Blog
   - Member Since
 - Logout functionality.
-- Automatic redirection to login when accessing protected pages without authentication.
+- Automatic redirection to login for unauthorized access.
 
-### Technologies Used
+## Module 06 – Final Project and Deployment
 
-- HTML
-- CSS
-- JavaScript
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcrypt
+- Final application testing.
+- UI improvements and mobile responsiveness.
+- Professional project documentation.
+- Application deployment.
+
 
 ## Internship
 
 **Organization:** Codomax Digital Solutions  
 **Program:** Full Stack Web Development Virtual Internship  
-**Project:** BlogSpace – Blog Application
+**Project:** BlogSpace – Full Stack Blog Application
 
 ---
 
