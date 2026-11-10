@@ -526,4 +526,7 @@ td a {
     background: #c7d2fe;
 }
 
-
+.highlight-name {
+    color: #6366f1;
+    font-weight: 700;
+}

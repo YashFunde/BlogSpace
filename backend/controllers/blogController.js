@@ -1,12 +1,11 @@
-// Temporary blog storage (MongoDB will replace this in Module 03)
-const blogs = [];
+const Blog = require("../models/Blog");
+const mongoose = require("mongoose");
 
 // Create Blog
-const createBlog = (req, res) => {
+const createBlog = async (req, res) => {
     try {
-        const { title, content, category } = req.body;
+        const { title, content, category, image } = req.body;
 
-        // Validate fields
         if (!title || !content || !category) {
             return res.status(400).json({
                 success: false,
@@ -14,17 +13,13 @@ const createBlog = (req, res) => {
             });
         }
 
-        // Create new blog
-        const newBlog = {
-            id: Date.now().toString(),
+        const newBlog = await Blog.create({
             title,
             content,
             category,
-            author: req.user.id,
-            createdAt: new Date()
-        };
-
-        blogs.push(newBlog);
+            image: image || "",
+            author: req.user.id
+        });
 
         res.status(201).json({
             success: true,
@@ -33,6 +28,7 @@ const createBlog = (req, res) => {
         });
 
     } catch (error) {
+        console.error("Create Blog Error:", error);
         res.status(500).json({
             success: false,
             message: "Server error while creating blog"
@@ -40,16 +36,22 @@ const createBlog = (req, res) => {
     }
 };
 
+
 // Get All Blogs
-const getAllBlogs = (req, res) => {
+const getAllBlogs = async (req, res) => {
     try {
+        const blogs = await Blog.find()
+            .populate("author", "name email")
+            .sort({ createdAt: -1 });
+
         res.status(200).json({
             success: true,
             count: blogs.length,
-            blogs: blogs
+            blogs
         });
 
     } catch (error) {
+        console.error("Get Blogs Error:", error);
         res.status(500).json({
             success: false,
             message: "Server error while fetching blogs"
@@ -58,12 +60,49 @@ const getAllBlogs = (req, res) => {
 };
 
 
- // Get Blogs Created by Logged-in User
-const getMyBlogs = (req, res) => {
+// Get Single Blog by ID
+const getBlogById = async (req, res) => {
     try {
-        const myBlogs = blogs.filter(
-            blog => blog.author === req.user.id
-        );
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid blog ID"
+            });
+        }
+
+        const blog = await Blog.findById(id)
+            .populate("author", "name email");
+
+        if (!blog) {
+            return res.status(404).json({
+                success: false,
+                message: "Blog not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            blog
+        });
+
+    } catch (error) {
+        console.error("Get Single Blog Error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error while fetching blog"
+        });
+    }
+};
+
+
+// Get Blogs Created by Logged-in User
+const getMyBlogs = async (req, res) => {
+    try {
+        const myBlogs = await Blog.find({
+            author: req.user.id
+        }).sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
@@ -72,6 +111,7 @@ const getMyBlogs = (req, res) => {
         });
 
     } catch (error) {
+        console.error("Get My Blogs Error:", error);
         res.status(500).json({
             success: false,
             message: "Server error while fetching your blogs"
@@ -79,13 +119,21 @@ const getMyBlogs = (req, res) => {
     }
 };
 
+
 // Update Blog
-const updateBlog = (req, res) => {
+const updateBlog = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, content, category } = req.body;
+        const { title, content, category, image } = req.body;
 
-        const blog = blogs.find(blog => blog.id === id);
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid blog ID"
+            });
+        }
+
+        const blog = await Blog.findById(id);
 
         if (!blog) {
             return res.status(404).json({
@@ -95,16 +143,21 @@ const updateBlog = (req, res) => {
         }
 
         // Only the author can update the blog
-        if (blog.author !== req.user.id) {
+        if (blog.author.toString() !== req.user.id) {
             return res.status(403).json({
                 success: false,
                 message: "You are not authorized to update this blog"
             });
         }
 
-        blog.title = title || blog.title;
-        blog.content = content || blog.content;
-        blog.category = category || blog.category;
+        blog.title = title ?? blog.title;
+        blog.content = content ?? blog.content;
+        blog.category = category ?? blog.category;
+
+        // NEW: Update image URL
+        blog.image = image ?? blog.image;
+
+        await blog.save();
 
         res.status(200).json({
             success: true,
@@ -113,6 +166,7 @@ const updateBlog = (req, res) => {
         });
 
     } catch (error) {
+        console.error("Update Blog Error:", error);
         res.status(500).json({
             success: false,
             message: "Server error while updating blog"
@@ -120,16 +174,22 @@ const updateBlog = (req, res) => {
     }
 };
 
+
 // Delete Blog
-const deleteBlog = (req, res) => {
+const deleteBlog = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const blogIndex = blogs.findIndex(
-            blog => blog.id === id
-        );
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid blog ID"
+            });
+        }
 
-        if (blogIndex === -1) {
+        const blog = await Blog.findById(id);
+
+        if (!blog) {
             return res.status(404).json({
                 success: false,
                 message: "Blog not found"
@@ -137,14 +197,14 @@ const deleteBlog = (req, res) => {
         }
 
         // Only the author can delete the blog
-        if (blogs[blogIndex].author !== req.user.id) {
+        if (blog.author.toString() !== req.user.id) {
             return res.status(403).json({
                 success: false,
                 message: "You are not authorized to delete this blog"
             });
         }
 
-        blogs.splice(blogIndex, 1);
+        await blog.deleteOne();
 
         res.status(200).json({
             success: true,
@@ -152,6 +212,7 @@ const deleteBlog = (req, res) => {
         });
 
     } catch (error) {
+        console.error("Delete Blog Error:", error);
         res.status(500).json({
             success: false,
             message: "Server error while deleting blog"
@@ -159,4 +220,12 @@ const deleteBlog = (req, res) => {
     }
 };
 
-module.exports = { createBlog, getAllBlogs, getMyBlogs, updateBlog, deleteBlog};
+
+module.exports = {
+    createBlog,
+    getAllBlogs,
+    getBlogById,
+    getMyBlogs,
+    updateBlog,
+    deleteBlog
+};

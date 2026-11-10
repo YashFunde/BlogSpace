@@ -146,13 +146,30 @@ Install the Live Server extension in VS Code and open `index.html` using Live Se
 
 Protected endpoints require a JWT Bearer token in the Authorization header.
 
-## Current Development Status
+## Module 03 – MongoDB Integration
 
-- Module 01: Frontend Development
-- Module 02: Backend Development and Frontend Integration
-- Module 03: MongoDB Integration (Planned)
+### Features Added
+- Integrated MongoDB Atlas using Mongoose.
+- Created User and Blog models with schema validation.
+- Stored user registration details securely using bcrypt password hashing.
+- Implemented JWT-based authentication.
+- Connected blog CRUD operations with MongoDB.
+- Added blog image URL support.
+- Displayed blog posts with author information.
+- Added dashboard welcome message with the logged-in user's name.
+- Implemented edit and delete functionality for blog posts.
+- Verified data persistence using MongoDB Atlas.
 
-**Note:** User and blog data currently use temporary in-memory storage. Data is reset when the backend server restarts. MongoDB integration is planned for the next module.
+### Database
+- MongoDB Atlas
+- Mongoose
+
+### Backend
+- Node.js
+- Express.js
+- JWT
+- bcryptjs
+
 
 ## Internship
 
