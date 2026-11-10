@@ -4,21 +4,13 @@ A responsive full-stack blog application developed as part of my **Full Stack We
 
 BlogSpace allows users to register, log in, create and manage their own blog posts, and explore content published by the community.
 
+## Live Demo
+
+- **Live Website:** https://blogspace-yash.vercel.app/
+- **Backend API:** https://blogspace-jyc2.onrender.com
+- **GitHub Repository:** https://github.com/YashFunde/BlogSpace
+
 ## Features
-
-## Screenshots
-
-### Homepage
-![BlogSpace Homepage](assets/images/homepage.png)
-
-### Login Page
-![Login Page](assets/images/login.png)
-
-### Dashboard
-![User Dashboard](assets/images/dashboard.png)
-
-### Blog Details
-![Blog Details](assets/images/blog-details.png)
 
 ### Frontend
 - Responsive homepage and navigation
@@ -42,6 +34,20 @@ BlogSpace allows users to register, log in, create and manage their own blog pos
 - User-specific blog retrieval
 - Environment variable configuration
 
+## Screenshots
+
+### Homepage
+![BlogSpace Homepage](assets/images/homepage.png)
+
+### Login Page
+![Login Page](assets/images/login.png)
+
+### Dashboard
+![User Dashboard](assets/images/dashboard.png)
+
+### Blog Details
+![Blog Details](assets/images/blog-details.png)
+
 ## Technologies Used
 
 | Technology | Purpose |
@@ -58,11 +64,20 @@ BlogSpace allows users to register, log in, create and manage their own blog pos
 | dotenv | Environment variables |
 | CORS | Frontend-backend communication |
 | Git & GitHub | Version control |
+| Vercel | Frontend deployment |
+| Render | Backend deployment |
 
 ## Project Structure
 
 ```text
 BlogSpace/
+│
+├── assets/
+│   └── images/
+│       ├── homepage.png
+│       ├── login.png
+│       ├── dashboard.png
+│       └── blog-details.png
 │
 ├── index.html
 ├── login.html
@@ -94,6 +109,7 @@ BlogSpace/
 │   │   └── authMiddleware.js
 │   ├── server.js
 │   ├── package.json
+│   ├── package-lock.json
 │   └── .gitignore
 │
 └── README.md
@@ -128,7 +144,9 @@ MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_secure_secret_key
 ```
 
-Replace the placeholder values with your own credentials. Never upload your `.env` file to GitHub.
+Replace the placeholder values with your own credentials.
+
+**Important:** Never upload your `.env` file or database credentials to GitHub.
 
 ### 5. Start the backend server
 
@@ -136,19 +154,27 @@ Replace the placeholder values with your own credentials. Never upload your `.en
 npm run dev
 ```
 
-The backend will run at:
+The backend will run locally at:
 
 `http://localhost:5000`
 
-### 6. Run the frontend
+### 6. Configure the frontend API URL
 
-Install the Live Server extension in VS Code and open `index.html` using Live Server.
-
-Make sure `js/config.js` points to your backend API:
+For local development, update `js/config.js`:
 
 ```javascript
 const API_URL = "http://localhost:5000/api";
 ```
+
+For the deployed application, use:
+
+```javascript
+const API_URL = "https://blogspace-jyc2.onrender.com/api";
+```
+
+### 7. Run the frontend
+
+Install the Live Server extension in VS Code and open `index.html` using Live Server.
 
 ## API Endpoints
 
@@ -171,6 +197,15 @@ const API_URL = "http://localhost:5000/api";
 | DELETE | `/api/blogs/:id` | Delete a blog | Yes |
 
 Protected endpoints require a JWT Bearer token in the Authorization header.
+
+## Module 02 – Backend Development
+
+- Created backend using Node.js and Express.js.
+- Developed authentication and blog APIs.
+- Implemented JWT authentication.
+- Integrated bcrypt password hashing.
+- Connected frontend with backend APIs.
+- Implemented blog CRUD operations.
 
 ## Module 03 – MongoDB Integration
 
@@ -211,8 +246,19 @@ Protected endpoints require a JWT Bearer token in the Authorization header.
 - Final application testing.
 - UI improvements and mobile responsiveness.
 - Professional project documentation.
-- Application deployment.
+- Frontend deployment using Vercel.
+- Backend deployment using Render.
+- MongoDB Atlas cloud database integration.
+- Successfully tested the live application.
 
+## Deployment Architecture
+
+| Component | Platform |
+|---|---|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | MongoDB Atlas |
+| Source Code | GitHub |
 
 ## Internship
 
