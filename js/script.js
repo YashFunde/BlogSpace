@@ -1,3 +1,4 @@
+
 // ==========================================
 // BLOGSPACE - FRONTEND FUNCTIONALITY
 // ==========================================
@@ -162,7 +163,6 @@ if (loginForm) {
                 throw new Error(data.message || "Login failed");
             }
 
-            // SAVE TOKEN AND USER NAME
             localStorage.setItem("token", data.token);
             localStorage.setItem("userName", data.user.name);
 
@@ -235,9 +235,16 @@ if (dashboard) {
     const welcomeMessage = document.getElementById("welcomeMessage");
     const userName = localStorage.getItem("userName");
 
-        if (welcomeMessage && userName) {
-    welcomeMessage.innerHTML = `Welcome back, <span class="highlight-name">${userName}</span>! Manage your blog posts here.`;
-          }
+    if (welcomeMessage && userName) {
+        welcomeMessage.replaceChildren(
+            document.createTextNode("Welcome back, "),
+            Object.assign(document.createElement("span"), {
+                className: "highlight-name",
+                textContent: userName
+            }),
+            document.createTextNode("! Manage your blog posts here.")
+        );
+    }
 
     async function loadDashboard() {
 
@@ -313,7 +320,6 @@ if (dashboard) {
 
                 const actionCell = document.createElement("td");
 
-
                 // EDIT BLOG
 
                 const editButton = document.createElement("button");
@@ -322,28 +328,14 @@ if (dashboard) {
 
                 editButton.addEventListener("click", async function () {
 
-                    const newTitle = prompt(
-                        "Enter new blog title:",
-                        blog.title
-                    );
-
+                    const newTitle = prompt("Enter new blog title:", blog.title);
                     if (newTitle === null) return;
 
-                    const newCategory = prompt(
-                        "Enter new category:",
-                        blog.category
-                    );
-
+                    const newCategory = prompt("Enter new category:", blog.category);
                     if (newCategory === null) return;
 
-                    const newContent = prompt(
-                        "Enter new blog content:",
-                        blog.content
-                    );
-
+                    const newContent = prompt("Enter new blog content:", blog.content);
                     if (newContent === null) return;
-
-                    // EDIT IMAGE URL
 
                     const newImage = prompt(
                         "Enter new image URL (leave empty to remove image):",
@@ -352,16 +344,10 @@ if (dashboard) {
 
                     if (newImage === null) return;
 
-                    if (
-                        !newTitle.trim() ||
-                        !newCategory.trim() ||
-                        !newContent.trim()
-                    ) {
+                    if (!newTitle.trim() || !newCategory.trim() || !newContent.trim()) {
                         alert("Title, category and content cannot be empty!");
                         return;
                     }
-
-                    // Validate image URL
 
                     if (newImage.trim()) {
                         try {
@@ -464,12 +450,121 @@ if (dashboard) {
 
 
 // ==========================================
-// HOMEPAGE - DISPLAY BLOGS FROM MONGODB
+// HOMEPAGE - SEARCH AND CATEGORY FILTER
 // ==========================================
 
 const blogContainer = document.querySelector(".blog-container");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 
 if (blogContainer) {
+
+    let allBlogs = [];
+
+    // DISPLAY BLOG CARDS
+
+    function displayBlogs(blogs) {
+
+        blogContainer.replaceChildren();
+
+        if (blogs.length === 0) {
+            blogContainer.textContent =
+                allBlogs.length === 0
+                    ? "No blogs available yet. Be the first to create one!"
+                    : "No blogs match your search or selected category.";
+
+            return;
+        }
+
+        blogs.forEach(blog => {
+
+            const card = document.createElement("div");
+            card.className = "blog-card";
+
+            // BLOG IMAGE
+
+            const img = document.createElement("img");
+            const imageURL = blog.image ? blog.image.trim() : "";
+
+            img.src = imageURL ||
+                "https://placehold.co/600x400/eef2ff/4f46e5?text=BlogSpace";
+
+            img.alt = blog.title || "Blog image";
+
+            img.onerror = function () {
+                this.onerror = null;
+                this.src = "https://placehold.co/600x400/eef2ff/4f46e5?text=Image+Not+Found";
+            };
+
+            // BLOG CONTENT
+
+            const content = document.createElement("div");
+            content.className = "blog-content";
+
+            const category = document.createElement("span");
+            category.textContent = blog.category || "General";
+
+            const title = document.createElement("h3");
+            title.textContent = blog.title;
+
+            const description = document.createElement("p");
+            const blogText = blog.content || "";
+
+            description.textContent =
+                blogText.length > 100
+                    ? blogText.substring(0, 100) + "..."
+                    : blogText;
+
+            content.append(category, title, description);
+            card.append(img, content);
+
+            // OPEN BLOG DETAILS PAGE
+
+            card.style.cursor = "pointer";
+
+            card.addEventListener("click", function () {
+                window.location.href =
+                    `blog-details.html?id=${encodeURIComponent(blog._id || blog.id)}`;
+            });
+
+            blogContainer.appendChild(card);
+        });
+    }
+
+
+    // SEARCH AND FILTER BLOGS
+
+    function filterBlogs() {
+
+        const searchText = searchInput
+            ? searchInput.value.trim().toLowerCase()
+            : "";
+
+        const selectedCategory = categoryFilter
+            ? categoryFilter.value.toLowerCase()
+            : "";
+
+        const filteredBlogs = allBlogs.filter(blog => {
+
+            const title = (blog.title || "").toLowerCase();
+            const content = (blog.content || "").toLowerCase();
+            const category = (blog.category || "").toLowerCase();
+
+            const matchesSearch =
+                title.includes(searchText) ||
+                content.includes(searchText);
+
+            const matchesCategory =
+                !selectedCategory || category === selectedCategory;
+
+            return matchesSearch && matchesCategory;
+        });
+
+        displayBlogs(filteredBlogs);
+    }
+
+
+    // LOAD BLOGS FROM MONGODB
 
     async function loadHomeBlogs() {
 
@@ -481,70 +576,34 @@ if (blogContainer) {
                 throw new Error(data.message || "Failed to load blogs");
             }
 
-            const blogs = data.blogs || [];
+            allBlogs = data.blogs || [];
 
-            blogContainer.replaceChildren();
+            // POPULATE CATEGORY DROPDOWN
 
-            if (blogs.length === 0) {
-                blogContainer.textContent =
-                    "No blogs available yet. Be the first to create one!";
-                return;
+            if (categoryFilter) {
+
+                const categories = [
+                    ...new Set(
+                        allBlogs
+                            .map(blog => (blog.category || "").trim())
+                            .filter(Boolean)
+                    )
+                ];
+
+                categories.sort((a, b) => a.localeCompare(b));
+
+                categories.forEach(category => {
+
+                    const option = document.createElement("option");
+
+                    option.value = category;
+                    option.textContent = category;
+
+                    categoryFilter.appendChild(option);
+                });
             }
 
-            blogs.forEach(blog => {
-
-                const card = document.createElement("div");
-                card.className = "blog-card";
-
-                // BLOG IMAGE
-
-                const img = document.createElement("img");
-                const imageURL = blog.image ? blog.image.trim() : "";
-
-                img.src = imageURL ||
-                    "https://placehold.co/600x400/eef2ff/4f46e5?text=BlogSpace";
-
-                img.alt = blog.title || "Blog image";
-
-                img.onerror = function () {
-                    this.onerror = null;
-                    this.src = "https://placehold.co/600x400/eef2ff/4f46e5?text=Image+Not+Found";
-                };
-
-
-                // BLOG CONTENT
-
-                const content = document.createElement("div");
-                content.className = "blog-content";
-
-                const category = document.createElement("span");
-                category.textContent = blog.category;
-
-                const title = document.createElement("h3");
-                title.textContent = blog.title;
-
-                const description = document.createElement("p");
-
-                description.textContent =
-                    blog.content.length > 100
-                        ? blog.content.substring(0, 100) + "..."
-                        : blog.content;
-
-                content.append(category, title, description);
-                card.append(img, content);
-
-
-                // OPEN BLOG DETAILS PAGE
-
-                card.style.cursor = "pointer";
-
-                card.addEventListener("click", function () {
-                    window.location.href =
-                        `blog-details.html?id=${encodeURIComponent(blog._id)}`;
-                });
-
-                blogContainer.appendChild(card);
-            });
+            displayBlogs(allBlogs);
 
         } catch (error) {
             console.error("Homepage Error:", error);
@@ -552,6 +611,19 @@ if (blogContainer) {
             blogContainer.textContent =
                 "Unable to load blogs. Please try again later.";
         }
+    }
+
+
+    // SEARCH EVENT
+
+    if (searchInput) {
+        searchInput.addEventListener("input", filterBlogs);
+    }
+
+    // CATEGORY FILTER EVENT
+
+    if (categoryFilter) {
+        categoryFilter.addEventListener("change", filterBlogs);
     }
 
     loadHomeBlogs();

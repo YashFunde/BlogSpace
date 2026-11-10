@@ -530,3 +530,63 @@ td a {
     color: #6366f1;
     font-weight: 700;
 }
+
+
+
+/* ==========================================
+   BLOG SEARCH AND CATEGORY FILTER
+========================================== */
+
+.blog-filters {
+    max-width: 850px;
+    margin: 30px auto;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.blog-filters input,
+.blog-filters select {
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #333333;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-filters input {
+    flex: 1;
+    min-width: 0;
+}
+
+.blog-filters select {
+    min-width: 180px;
+    cursor: pointer;
+}
+
+.blog-filters input:focus,
+.blog-filters select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.blog-filters input::placeholder {
+    color: #9ca3af;
+}
+
+@media (max-width: 600px) {
+    .blog-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .blog-filters input,
+    .blog-filters select {
+        width: 100%;
+    }
+}

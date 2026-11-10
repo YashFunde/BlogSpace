@@ -171,6 +171,30 @@ Protected endpoints require a JWT Bearer token in the Authorization header.
 - bcryptjs
 
 
+
+## Module 04 – CRUD Operations and Blog Filtering
+
+### Features Implemented
+- Create new blog posts.
+- Read and display all published blogs.
+- View individual blog details.
+- Update existing blog posts.
+- Delete blog posts.
+- Search blogs by title.
+- Search blogs by content.
+- Filter blogs by category.
+- Combine search and category filtering.
+- Display a message when no matching blogs are found.
+
+### Technologies Used
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- Express.js
+- MongoDB Atlas
+
+
 ## Internship
 
 **Organization:** Codomax Digital Solutions  

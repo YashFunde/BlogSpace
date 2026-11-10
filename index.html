@@ -21,7 +21,6 @@
                 <li><a href="login.html" id="loginLink">Login</a></li>
                 <li><a href="register.html" class="btn" id="registerLink">Get Started</a></li>
             </ul>
-            
         </nav>
     </header>
 
@@ -38,6 +37,19 @@
         <p class="section-description">
             Explore the latest stories from our community.
         </p>
+
+        <!-- Search and Category Filter -->
+        <div class="blog-filters">
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search blogs by title or content..."
+            >
+
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+            </select>
+        </div>
 
         <!-- Blogs will be loaded from backend -->
         <div class="blog-container">
