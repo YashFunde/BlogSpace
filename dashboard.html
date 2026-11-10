@@ -18,7 +18,7 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="dashboard.html">Dashboard</a></li>
                 <li><a href="create-blog.html" class="btn">+ Create Blog</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="#" id="logoutBtn">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -31,6 +31,7 @@
                 <h1>My Dashboard</h1>
                 <p>Welcome back! Manage your blog posts here.</p>
             </div>
+
             <a href="create-blog.html" class="hero-btn">+ Create New Blog</a>
         </div>
 
@@ -39,19 +40,19 @@
 
             <div class="stat-card">
                 <h3>Total Blogs</h3>
-                <h2>12</h2>
+                <h2>0</h2>
                 <p>Published posts</p>
             </div>
 
             <div class="stat-card">
                 <h3>Total Views</h3>
-                <h2>2,450</h2>
+                <h2>0</h2>
                 <p>Across all blogs</p>
             </div>
 
             <div class="stat-card">
                 <h3>Drafts</h3>
-                <h2>03</h2>
+                <h2>0</h2>
                 <p>Unpublished posts</p>
             </div>
 
@@ -74,31 +75,10 @@
                         </tr>
                     </thead>
 
+                    <!-- Blog data will be loaded from backend -->
                     <tbody>
-                        <tr>
-                            <td>Getting Started with HTML</td>
-                            <td>Technology</td>
-                            <td><span class="status published">Published</span></td>
-                            <td>450</td>
-                            <td><a href="#">Edit</a></td>
-                        </tr>
-
-                        <tr>
-                            <td>Learning JavaScript</td>
-                            <td>Programming</td>
-                            <td><span class="status published">Published</span></td>
-                            <td>320</td>
-                            <td><a href="#">Edit</a></td>
-                        </tr>
-
-                        <tr>
-                            <td>My First Web Project</td>
-                            <td>Development</td>
-                            <td><span class="status draft">Draft</span></td>
-                            <td>0</td>
-                            <td><a href="#">Edit</a></td>
-                        </tr>
                     </tbody>
+
                 </table>
             </div>
 
@@ -110,6 +90,8 @@
         <p>&copy; 2026 BlogSpace. All Rights Reserved.</p>
     </footer>
 
+    <!-- JavaScript -->
+    <script src="js/config.js"></script>
     <script src="js/script.js"></script>
 
 </body>

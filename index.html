@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,9 +18,10 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#blogs">Explore</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="register.html" class="btn">Get Started</a></li>
+                <li><a href="login.html" id="loginLink">Login</a></li>
+                <li><a href="register.html" class="btn" id="registerLink">Get Started</a></li>
             </ul>
+            
         </nav>
     </header>
 
@@ -37,44 +39,8 @@
             Explore the latest stories from our community.
         </p>
 
+        <!-- Blogs will be loaded from backend -->
         <div class="blog-container">
-
-            <div class="blog-card">
-                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600"
-                     alt="Web Development">
-
-                <div class="blog-content">
-                    <span>Technology</span>
-                    <h3>Getting Started with Web Development</h3>
-                    <p>Explore the fundamentals of building modern websites.</p>
-                    <a href="#">Read More →</a>
-                </div>
-            </div>
-
-            <div class="blog-card">
-                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600"
-                     alt="Programming">
-
-                <div class="blog-content">
-                    <span>Programming</span>
-                    <h3>Why Every Developer Should Learn JavaScript</h3>
-                    <p>Discover how JavaScript powers interactive web experiences.</p>
-                    <a href="#">Read More →</a>
-                </div>
-            </div>
-
-            <div class="blog-card">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600"
-                     alt="Teamwork">
-
-                <div class="blog-content">
-                    <span>Career</span>
-                    <h3>Building Your First Tech Project</h3>
-                    <p>Learn how to turn your ideas into real-world projects.</p>
-                    <a href="#">Read More →</a>
-                </div>
-            </div>
-
         </div>
     </section>
 
@@ -83,6 +49,7 @@
         <p>&copy; 2026 BlogSpace. All Rights Reserved.</p>
     </footer>
 
+    <script src="js/config.js"></script>
     <script src="js/script.js"></script>
 
 </body>
