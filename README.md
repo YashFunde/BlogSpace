@@ -195,6 +195,35 @@ Protected endpoints require a JWT Bearer token in the Authorization header.
 - MongoDB Atlas
 
 
+## Module 05: Authentication & Dashboard
+
+### Features Implemented
+
+- Secure user authentication using JWT.
+- Password hashing using bcrypt.
+- Protected routes for authenticated users.
+- User-specific blog management.
+- User profile section displaying name, email, and account creation date.
+- Profile statistics:
+  - Total Blogs
+  - Categories Used
+  - Latest Blog
+  - Member Since
+- Logout functionality.
+- Automatic redirection to login when accessing protected pages without authentication.
+
+### Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+
 ## Internship
 
 **Organization:** Codomax Digital Solutions  

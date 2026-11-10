@@ -35,7 +35,7 @@
             <a href="create-blog.html" class="hero-btn">+ Create New Blog</a>
         </div>
 
-        <!-- Statistics -->
+        <!-- Dashboard Statistics -->
         <div class="stats-container">
 
             <div class="stat-card">
@@ -58,6 +58,62 @@
 
         </div>
 
+        <!-- My Profile Section -->
+        <section class="profile-section">
+
+            <div class="profile-heading">
+                <h2>My Profile</h2>
+                <p class="section-description">
+                    Your account information and blogging activity.
+                </p>
+            </div>
+
+            <!-- Profile Information -->
+            <div class="profile-card">
+
+                <div class="profile-avatar">
+                    <span id="profileInitial">U</span>
+                </div>
+
+                <div class="profile-info">
+                    <h3 id="profileName">Loading...</h3>
+                    <p id="profileEmail">Loading email...</p>
+                    <span class="profile-status">Active Account</span>
+                </div>
+
+            </div>
+
+            <!-- Profile Statistics -->
+            <div class="profile-stats">
+
+                <div class="profile-stat-card">
+                    <h3>Total Blogs</h3>
+                    <h2 id="profileTotalBlogs">0</h2>
+                    <p>Blogs published</p>
+                </div>
+
+                <div class="profile-stat-card">
+                    <h3>Categories Used</h3>
+                    <h2 id="profileCategories">0</h2>
+                    <p>Unique categories</p>
+                </div>
+
+                <div class="profile-stat-card">
+                    <h3>Latest Blog</h3>
+                    <h2 id="profileLatestBlog">None</h2>
+                    <p>Most recent post</p>
+                </div>
+
+                <div class="profile-stat-card">
+                    <h3>Member Since</h3>
+                    <h2 id="profileJoined">--</h2>
+                    <p>Account creation date</p>
+                </div>
+
+            </div>
+
+        </section>
+
         <!-- Blog Management -->
         <section class="manage-blogs">
             <h2>My Blog Posts</h2>
@@ -75,7 +131,6 @@
                         </tr>
                     </thead>
 
-                    <!-- Blog data will be loaded from backend -->
                     <tbody>
                     </tbody>
 
@@ -86,6 +141,7 @@
 
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2026 BlogSpace. All Rights Reserved.</p>
     </footer>

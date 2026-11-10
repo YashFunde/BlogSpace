@@ -3,7 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// User Registration
+// ==========================================
+// USER REGISTRATION
+// ==========================================
+
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -15,7 +18,6 @@ const registerUser = async (req, res) => {
             });
         }
 
-        // Check if user already exists in MongoDB
         const existingUser = await User.findOne({
             email: email.toLowerCase().trim()
         });
@@ -27,10 +29,8 @@ const registerUser = async (req, res) => {
             });
         }
 
-        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Save new user in MongoDB
         const newUser = await User.create({
             name,
             email: email.toLowerCase().trim(),
@@ -57,7 +57,11 @@ const registerUser = async (req, res) => {
     }
 };
 
-// User Login
+
+// ==========================================
+// USER LOGIN
+// ==========================================
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -69,7 +73,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Find user in MongoDB
         const user = await User.findOne({
             email: email.toLowerCase().trim()
         });
@@ -81,7 +84,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
@@ -91,7 +93,6 @@ const loginUser = async (req, res) => {
             });
         }
 
-        // Generate JWT token
         const token = jwt.sign(
             {
                 id: user._id.toString(),
@@ -122,4 +123,50 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+
+// ==========================================
+// GET LOGGED-IN USER PROFILE
+// ==========================================
+
+const getUserProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id)
+            .select("name email createdAt");
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                createdAt: user.createdAt
+            }
+        });
+
+    } catch (error) {
+        console.error("Profile Error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Unable to fetch user profile"
+        });
+    }
+};
+
+
+// ==========================================
+// EXPORT CONTROLLERS
+// ==========================================
+
+module.exports = {
+    registerUser,
+    loginUser,
+    getUserProfile
+};
